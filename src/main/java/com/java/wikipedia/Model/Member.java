@@ -1,5 +1,6 @@
 package com.java.wikipedia.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -25,10 +27,8 @@ public class Member {
     @Column(name = "username")
     private String username;
 
-
     @Column(name = "firstname")
     private String firstname;
-
 
     @Column(name = "lastname")
     private String lastname;
@@ -38,5 +38,9 @@ public class Member {
 
     @Column(name = "roles")
     private String roles;
+
+    @OneToMany(mappedBy = "author")
+    @JsonIgnore
+    private List<Project> projects;
 
 }

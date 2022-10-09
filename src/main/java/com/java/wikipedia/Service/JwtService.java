@@ -13,7 +13,8 @@ public class JwtService {
     private String key="Wikipedia-15-January";
 
     public String generateToken(String username){
-        return Jwts.builder().setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder().setSubject(username).
+                setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(SignatureAlgorithm.HS256,key).setIssuer("author").
                 setExpiration(new Date(System.currentTimeMillis()+20*60*1000)).compact();
     }
