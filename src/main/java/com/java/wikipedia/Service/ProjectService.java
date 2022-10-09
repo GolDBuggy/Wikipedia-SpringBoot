@@ -1,13 +1,16 @@
 package com.java.wikipedia.Service;
 
+import com.java.wikipedia.Dto.ProjectDto;
 import com.java.wikipedia.Model.Project;
 import com.java.wikipedia.Repo.ProjectRepo;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,10 +19,11 @@ public class ProjectService {
     private final ProjectRepo projectRepo;
     private final MemberService memberService;
     private final TopicService topicService;
+    private final ModelMapper mapper;
 
 
-    public List<Project> getAll(){
-        return projectRepo.findAll();
+    public List<ProjectDto> getAll(){
+        return projectRepo.findAll().stream().map(p -> mapper.map(p,ProjectDto.class)).collect(Collectors.toList());
     }
 
     public void saveProject(Project project, Principal principal){
