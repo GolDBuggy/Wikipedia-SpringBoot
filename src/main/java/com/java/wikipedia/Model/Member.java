@@ -43,4 +43,11 @@ public class Member {
     @JsonIgnore
     private List<Project> projects;
 
+
+    @ManyToMany
+    @JoinTable(name = "project_updater",joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private List<Project> updaters;
+
+
 }

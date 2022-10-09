@@ -1,6 +1,7 @@
 package com.java.wikipedia.Service;
 
 import com.java.wikipedia.Dto.ProjectDto;
+import com.java.wikipedia.Dto.UpdateRequest;
 import com.java.wikipedia.Model.Project;
 import com.java.wikipedia.Repo.ProjectRepo;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,4 +39,20 @@ public class ProjectService {
         project.setCreatedTime(new Date());
         return project;
     }
+
+    public void updateProject(String id, UpdateRequest updateRequest, Principal principal) {
+        Project project = projectRepo.findById(id).get();
+        project.setWriting(updateRequest.getNewText());
+        project.setUpdateTime(new Date());
+        if (project.getMembers() == null)
+            project.setMembers(new ArrayList<>());
+
+        project.getMembers().add(memberService.getByUsername(principal.getName()));
+        projectRepo.save(project);
+    }
+
+
 }
+
+
+

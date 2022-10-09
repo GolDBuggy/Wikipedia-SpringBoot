@@ -1,5 +1,6 @@
 package com.java.wikipedia.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -42,6 +44,12 @@ public class Project {
 
     @Column(name = "update_time")
     private Date updateTime;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "project_updater",joinColumns = @JoinColumn(name = "project_id"),
+                    inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Member> members;
 
 
 
